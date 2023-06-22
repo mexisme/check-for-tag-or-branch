@@ -9,7 +9,7 @@ inputs:
     description: Whether to throw an error, if the tag or branch is found
   github_token:
     description: GitHub token
-    default: ${{ github.token }}
+    required: true
 outputs:
   found:
     description: 'Whether a matching tag or branch was found: "TAG", "BRANCH", or "" (empty string)'
