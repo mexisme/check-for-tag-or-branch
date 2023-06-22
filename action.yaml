@@ -1,0 +1,18 @@
+name: 'Check for Tag or Branch'
+description: 'Check whether a tag or branch matching the provided inputs exists in the repo'
+inputs:
+  tag:
+    description: Tag to search for
+  branch:
+    description: Branch to search for
+  errorIfFound:
+    description: Whether to throw an error, if the tag or branch is found
+  github_token:
+    description: GitHub token
+    default: ${{ github.token }}
+outputs:
+  found:
+    description: 'Whether a matching tag or branch was found: "TAG", "BRANCH", or "" (empty string)'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
