@@ -13,4 +13,3 @@ devenv.local.nix
 
 # Generated files
 build/**
-dist/**
