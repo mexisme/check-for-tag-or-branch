@@ -56,6 +56,7 @@ class FindRef {
         }
       } else {
         core.debug(`Unexpected error = '${error}'`);
+        if (error instanceof Error) core.debug(error.stack as string);
         throw error;
       }
     }
