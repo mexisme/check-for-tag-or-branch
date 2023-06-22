@@ -1,5 +1,6 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
+import {RequestError} from '@octokit/request-error';
 
 async function run(): Promise<void> {
   try {
@@ -13,31 +14,43 @@ async function run(): Promise<void> {
     const found: String[] = [];
 
     if (gitTag !== null && gitTag !== '') {
-      core.debug(`Searching for tag ${gitTag}`);
+      try {
+        core.debug(`Searching for tag ${gitTag}`);
 
-      const response = await octokit.rest.git.getRef({
-        owner,
-        repo,
-        ref: `tags/${gitTag}`,
-      });
-
-      if (response.status === 200) {
-        core.debug('Matching Tag was found');
-        found.push('TAG');
+        await octokit.rest.git.getRef({
+          owner,
+          repo,
+          ref: `tags/${gitTag}`,
+        });
+      } catch (error) {
+        if (error instanceof RequestError) {
+          if (error.status === 200) {
+            core.debug('Matching Tag was found');
+            found.push('BRANCH');
+          } else if (error.status === 404) {
+            core.debug('Matching Tag was not found');
+          } else throw error;
+        } else throw error;
       }
     }
 
     if (gitBranch !== null && gitBranch !== '') {
-      core.debug(`Searching for branch ${gitBranch}`);
-      const response = await octokit.rest.git.getRef({
-        owner,
-        repo,
-        ref: `heads/${gitBranch}`,
-      });
-
-      if (response.status === 200) {
-        core.debug('Matching Branch was found');
-        found.push('BRANCH');
+      try {
+        core.debug(`Searching for branch ${gitBranch}`);
+        await octokit.rest.git.getRef({
+          owner,
+          repo,
+          ref: `heads/${gitBranch}`,
+        });
+      } catch (error) {
+        if (error instanceof RequestError) {
+          if (error.status === 200) {
+            core.debug('Matching Branch was found');
+            found.push('BRANCH');
+          } else if (error.status === 404) {
+            core.debug('Matching Branch was not found');
+          } else throw error;
+        } else throw error;
       }
     }
 
