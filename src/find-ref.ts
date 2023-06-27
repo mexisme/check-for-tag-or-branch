@@ -2,6 +2,12 @@ import * as core from '@actions/core';
 import * as github from '@actions/github';
 import {RequestError} from '@octokit/request-error';
 
+function isRequestError(error: any): error is RequestError {
+  const _error = error as RequestError;
+
+  return _error.status !== undefined && _error.request !== undefined;
+}
+
 export type RefType = 'tag' | 'branch';
 
 export class FindRef {
@@ -47,7 +53,7 @@ export class FindRef {
         ref: this.ref(refType, ref),
       });
     } catch (error) {
-      if (error instanceof RequestError) {
+      if (isRequestError(error)) {
         core.debug(`error.status = "${error.status}"`);
 
         if (error.status === 404) {
