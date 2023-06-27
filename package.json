@@ -1,7 +1,7 @@
 {
   "name": "check-for-tag-or-branch",
   "description": "Github Action to check for a Tag or Branch match",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": "mexisme",
   "license": "Mozilla Public License v2.0",
   "main": "src/main.ts",
