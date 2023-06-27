@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 import * as github from '@actions/github';
 import {RequestError} from '@octokit/request-error';
 
-function isRequestError(error: any): error is RequestError {
+function isRequestError(error: unknown): error is RequestError {
   const _error = error as RequestError;
 
   return _error.status !== undefined && _error.request !== undefined;

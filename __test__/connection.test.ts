@@ -1,4 +1,3 @@
-import {describe, expect, it, beforeAll, beforeEach} from '@jest/globals';
 import {FindRef} from '../src/find-ref';
 
 const GITHUB_TOKEN: string = process.env.GITHUB_TOKEN as string;
